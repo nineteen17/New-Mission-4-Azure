@@ -1,9 +1,8 @@
 import express from 'express'
-import taskRoutes from './routes'
+import router from './routes/routes'
 
 const app = express()
 app.use(express.json())
 
-app.use('/api/tasks', taskRoutes)
-
+app.use(router)
 export default app

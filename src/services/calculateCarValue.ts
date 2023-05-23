@@ -1,29 +1,27 @@
-import { CarValueInput, CarValueOutput } from "../types/types";
+import { CarValueInput, CarValueOutput } from '../types/types'
 
 export function calculateCarValue(input: CarValueInput): CarValueOutput {
-  // carValueOutput is the return type of the function
-  const { model, year } = input;
+  const { model, year } = input
 
   if (!model || !year) {
-    return { error: "Missing model or year" };
+    return { error: 'Missing model or year' }
   }
 
   if (!/^[a-zA-Z]+$/.test(model)) {
-    return { error: "Invalid model" };
+    return { error: 'Invalid model' }
   }
 
   const letters = model
     .toLowerCase()
-    .split("")
+    .split('')
     .filter((char) => /[a-z]/.test(char))
-    .map((char) => char.charCodeAt(0) - 96);
+    .map((char) => char.charCodeAt(0) - 96)
 
   if (letters.length === 0) {
-    return { error: "Invalid model" };
+    return { error: 'Invalid model' }
   }
 
-  const carValue =
-    letters.reduce((sum, letter) => sum + letter, 0) * 100 + year;
+  const carValue = letters.reduce((sum, letter) => sum + letter, 0) * 100 + year
 
-  return { car_value: carValue };
+  return { car_value: carValue } //
 }

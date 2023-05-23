@@ -1,32 +1,31 @@
 export interface CarValueInput {
-  model: string;
-  year: number;
+  model: string
+  year: number
 }
 
 export interface CarValueOutput {
-  car_value?: number;
-  error?: string;
+  car_value?: number
+  error?: string
 }
 
 export interface TestCarValue {
-  input: { model: string; year: number };
-  output: { car_value: number } | { error: string };
+  input: { model: string; year: number }
+  output: { car_value: number } | { error: string }
 }
 
 export type RiskInput = {
-  claim_history: string;
-};
+  claim_history: string
+}
 
 export type RiskOutput =
   | {
-      risk_rating: number;
+      risk_rating: number
     }
   | {
-      error: string;
-    };
+      error: string
+    }
 
 export interface TestRiskRating {
-  input: RiskInput;
-  output: RiskOutput;
+  input: RiskInput
+  output: RiskOutput
 }
-

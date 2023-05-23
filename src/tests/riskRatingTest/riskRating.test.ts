@@ -5,24 +5,24 @@ const testCases: TestRiskRating[] = [
   {
     input: {
       claim_history:
-        "I got into an accident where i smashed into a fence.", // 2 keywords in a sentence
+        "I got into an accident where i smashed into a fence.", 
     },
     output: { risk_rating: 2 },
   },
   {
-    input: { claim_history: "I've had no incidents in the past three years." }, // no keywords should equal default risk rating
+    input: { claim_history: "I've had no incidents in the past three years." }, 
     output: { risk_rating: 1 },
   },
   {
-    input: { claim_history: "crash, crashed, scratch, bump, smash, accident, damage, collide" }, // test the risk rating is maxed out at 5
+    input: { claim_history: "crash, crashed, scratch, bump, smash, accident, damage, collide" }, 
     output: { risk_rating: 5 }, 
   },
   {
-    input: { claim_history: "CrAsH, sMasH" }, // case sensitive
+    input: { claim_history: "CrAsH, sMasH" }, 
     output: { risk_rating: 2 },
   },
   {
-    input: { claim_history: "" }, // empty string
+    input: { claim_history: "" }, 
     output: { error: "there is an error in risk rating" },
   },
 ];
