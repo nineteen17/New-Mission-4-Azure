@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ram-manthry/ts-api-demo.git"
+    "url": "git+https://github.com/nineteen17/New-Mission-4-Azure.git"
   },
-  "author": "Ram Manthry",
+  "author": "Nick Campbell",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ram-manthry/ts-api-cd-demo/issues"
+    "url": "https://github.com/nineteen17/New-Mission-4-Azure.git"
   },
-  "homepage": "https://github.com/ram-manthry/ts-api-cd-demo#readme",
+  "homepage": "https://github.com/nineteen17/New-Mission-4-Azure.git",
   "dependencies": {
     "@jest-mock/express": "^2.0.1",
     "dotenv": "^16.0.3",
