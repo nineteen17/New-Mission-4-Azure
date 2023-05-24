@@ -1,5 +1,5 @@
-import { evaluateRisk } from "../../services/calculateRiskRating";
-import { TestRiskRating } from "../../types/types";
+import { evaluateRisk } from "../../../services/calculateRiskRating";
+import { TestRiskRating } from "../../../types/types";
 
 const testCases: TestRiskRating[] = [
   {

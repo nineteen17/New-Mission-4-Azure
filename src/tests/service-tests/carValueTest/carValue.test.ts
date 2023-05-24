@@ -1,5 +1,5 @@
-import { calculateCarValue } from "../../services/calculateCarValue";
-import { TestCarValue } from "../../types/types";
+import { calculateCarValue } from "../../../services/calculateCarValue";
+import { TestCarValue } from "../../../types/types";
 
 const testCases: TestCarValue[] = [
   {

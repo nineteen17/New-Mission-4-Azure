@@ -1,5 +1,5 @@
-import { calculateQuote } from '../../services/calculateQuote';
-import { CarValueInput, RiskInput } from '../../types/types';
+import { calculateQuote } from '../../../services/calculateQuote';
+import { CarValueInput, RiskInput } from '../../../types/types';
 
 describe('calculateQuote', () => {
   it('calculates the correct quote given valid input', () => {
