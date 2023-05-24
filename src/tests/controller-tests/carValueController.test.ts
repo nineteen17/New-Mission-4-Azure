@@ -33,7 +33,7 @@ describe('carValueController', () => {
     (calculateCarValue as jest.Mock).mockReturnValue(mockError);
 
     const mockRequestBody: CarValueInput = {
-      model: '', // Providing empty model which will cause error
+      model: '', 
       year: 2023,
     };
 
