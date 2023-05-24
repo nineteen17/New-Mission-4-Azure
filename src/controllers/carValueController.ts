@@ -13,7 +13,7 @@ const carValueController = (req: Request, res: Response) => {
     return res.status(400).json({ error: result.error })
   }
 
-  return res.json({ car_value: result.car_value }) //
+  return res.json({ car_value: result.car_value }) 
 }
 
 export default carValueController

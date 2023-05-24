@@ -13,7 +13,7 @@ export const evaluateRisk = (input: RiskInput): RiskOutput => {
   ]
   let risk_rating = 0
 
-  if (!input.claim_history || typeof input.claim_history !== 'string') {
+  if (!input.claim_history || input.claim_history.length === 0 || input.claim_history === '' || input.claim_history === ' ' ) { 
     return { error: 'there is an error in risk rating' }
   }
 

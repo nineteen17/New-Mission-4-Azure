@@ -7,7 +7,7 @@ export let calculateQuote = (
   car_value: CarValueInput,
   risk_rating: RiskInput
 ): CarValueOutput &
-  RiskOutput & { yearlyPremium?: number; monthlyPremium?: number } => {
+  RiskOutput & { yearly_premium?: number; monthly_premium?: number } => {
   let carValueResult = calculateCarValue(car_value)
   let riskRatingResult = evaluateRisk(risk_rating)
 
@@ -29,8 +29,8 @@ export let calculateQuote = (
     return {
       ...carValueResult,
       ...riskRatingResult,
-      yearlyPremium,
-      monthlyPremium,
+      yearly_premium: yearlyPremium,
+      monthly_premium: monthlyPremium,
     }
   }
 
