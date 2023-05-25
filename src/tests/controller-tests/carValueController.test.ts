@@ -12,7 +12,7 @@ jest.mock('../../services/calculateCarValue', () => ({
 describe('carValueController', () => {
   // Reset the mock before each test
   beforeEach(() => {
-    (calculateCarValue as jest.Mock).mockReset();
+    jest.resetAllMocks();
   });
 
   it('should return car value', async () => {
