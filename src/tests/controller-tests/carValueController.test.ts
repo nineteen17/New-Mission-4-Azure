@@ -4,20 +4,24 @@ import carValueController from '../../controllers/carValueController';
 import { calculateCarValue } from '../../services/calculateCarValue';
 import { CarValueInput, CarValueOutput } from '../../types/types';
 
-
+// Mock calculateCarValue
 jest.mock('../../services/calculateCarValue', () => ({
   calculateCarValue: jest.fn(),
 }));
 
 describe('carValueController', () => {
-  it('should return car value', async () => {
-    const mockCarValue: CarValueOutput = { car_value: 10100 };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockCarValue);
+  // Reset the mock before each test
+  beforeEach(() => {
+    (calculateCarValue as jest.Mock).mockReset();
+  });
 
+  it('should return car value', async () => {
     const mockRequestBody: CarValueInput = {
-      model: 'a',
-      year: 100,
+      model: 'Toyota Camry',
+      year: 2015,
     };
+    const mockCarValue: CarValueOutput = { car_value: 20000 };
+    (calculateCarValue as jest.Mock).mockReturnValue(mockCarValue);
 
     const mockRequest = createRequest({
       method: 'POST',
@@ -32,23 +36,23 @@ describe('carValueController', () => {
   });
 
   it('should return 400 and an error message if there is an error', async () => {
-    const mockError: CarValueOutput = { error: 'Missing model or year' };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockError);
-
     const mockRequestBody: CarValueInput = {
-      model: '', 
+      model: 'Unknown Model',
       year: 2023,
     };
-
+    const mockError: CarValueOutput = { error: 'Invalid model or year' };
+    (calculateCarValue as jest.Mock).mockReturnValue(mockError);
+  
     const mockRequest = createRequest({
       method: 'POST',
       body: mockRequestBody,
     });
-
+  
     const mockResponse = createResponse();
     await carValueController(mockRequest as Request, mockResponse as Response);
-
-    expect(mockResponse._getJSONData()).toEqual({ error: mockError.error });
+  
+    expect(mockResponse._getJSONData()).toEqual(mockError);
     expect(mockResponse._getStatusCode()).toBe(400);
   });
+  
 });
