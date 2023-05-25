@@ -4,7 +4,10 @@ import riskRatingController from '../../controllers/riskRatingController'
 import { evaluateRisk } from '../../services/calculateRiskRating'
 import { RiskInput, RiskOutput } from '../../types/types'
 
-jest.mock('../../services/calculateRiskRating')
+
+jest.mock('../../services/calculateRiskRating', () => ({
+  evaluateRisk: jest.fn(),
+}));
 
 describe('riskRatingController', () => {
   it('should return risk rating', async () => {
