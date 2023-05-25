@@ -9,7 +9,7 @@ jest.mock('../../services/calculateCarValue'); //
 describe('carValueController', () => {
   it('should return car value', async () => {
     const mockCarValue: CarValueOutput = { car_value: 10100 };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockCarValue);
+    (calculateCarValue as jest.Mock<CarValueOutput>).mockReturnValue(mockCarValue);
 
     const mockRequestBody: CarValueInput = {
       model: 'a',
@@ -30,7 +30,7 @@ describe('carValueController', () => {
 
   it('should return 400 and an error message if there is an error', async () => {
     const mockError: CarValueOutput = { error: 'Missing model or year' };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockError);
+    (calculateCarValue as jest.Mock<CarValueOutput>).mockReturnValue(mockError);
 
     const mockRequestBody: CarValueInput = {
       model: '', 
