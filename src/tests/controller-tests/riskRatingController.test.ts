@@ -2,11 +2,9 @@ import { createRequest, createResponse } from 'node-mocks-http';
 import { Request, Response } from 'express';
 import riskRatingController from '../../controllers/riskRatingController';
 import { RiskInput, RiskOutput } from '../../types/types';
-import { evaluateRisk } from '../../services/calculateRiskRating';
+import * as calculateRiskRating from '../../services/calculateRiskRating';
 
-jest.mock('../../services/calculateRiskRating', () => ({
-  evaluateRisk: jest.fn()
-}));
+const evaluateRiskSpy = jest.spyOn(calculateRiskRating, 'evaluateRisk');
 
 describe('riskRatingController', () => {
   beforeEach(() => {
@@ -16,7 +14,7 @@ describe('riskRatingController', () => {
   it('should return risk rating', async () => {
     const mockRiskRating: RiskOutput = { risk_rating: 2 };
 
-    (evaluateRisk as jest.MockedFunction<typeof evaluateRisk>).mockReturnValue(mockRiskRating);
+    evaluateRiskSpy.mockReturnValue(mockRiskRating);
 
     const mockRequestBody: RiskInput = {
       claim_history: 'crash, smash',
@@ -31,6 +29,7 @@ describe('riskRatingController', () => {
     await riskRatingController(mockRequest as Request, mockResponse as Response);
 
     const result = JSON.parse(mockResponse._getData());
+
     if (result.error) {
       console.log('Error:', result.error);
     }
@@ -43,7 +42,7 @@ describe('riskRatingController', () => {
   });
 
   it('should return 400 and an error message if there is an error', async () => {
-    (evaluateRisk as jest.MockedFunction<typeof evaluateRisk>).mockImplementation(() => {
+    evaluateRiskSpy.mockImplementation(() => {
       throw new Error('There was an error processing your request');
     });
 
@@ -60,6 +59,7 @@ describe('riskRatingController', () => {
     await riskRatingController(mockRequest as Request, mockResponse as Response);
 
     const result = JSON.parse(mockResponse._getData());
+    
     if (result.error) {
       console.log('Error:', result.error);
     }
