@@ -1,17 +1,20 @@
 import { createRequest, createResponse } from 'node-mocks-http';
 import { Request, Response } from 'express';
 import carValueController from '../../controllers/carValueController';
-import { calculateCarValue } from '../../services/calculateCarValue';
-import { CarValueInput, CarValueOutput } from '../../types/types';
 
-jest.mock('../../services/calculateCarValue', () => ({
-  calculateCarValue: jest.fn()
-}));
+import { CarValueInput, CarValueOutput } from '../../types/types';
+import * as calculateCarValue  from '../../services/calculateCarValue';
 
 describe('carValueController', () => {
+  let calculateCarValueSpy: jest.SpyInstance;
+
   // Reset the mock before each test
   beforeEach(() => {
-    jest.resetAllMocks();
+    calculateCarValueSpy = jest.spyOn(calculateCarValue, 'calculateCarValue');
+  });
+
+  afterEach(() => {
+    calculateCarValueSpy.mockRestore();
   });
 
   it('should return car value', async () => {
@@ -21,7 +24,7 @@ describe('carValueController', () => {
     };
     const mockCarValue: CarValueOutput = { car_value: 20000 };
 
-    (calculateCarValue as jest.MockedFunction<typeof calculateCarValue>).mockReturnValue(mockCarValue);
+    calculateCarValueSpy.mockReturnValue(mockCarValue);
 
     const mockRequest = createRequest({
       method: 'POST',
@@ -42,7 +45,7 @@ describe('carValueController', () => {
     };
     const mockError: CarValueOutput = { error: 'Invalid model or year' };
 
-    (calculateCarValue as jest.MockedFunction<typeof calculateCarValue>).mockReturnValue(mockError);
+    calculateCarValueSpy.mockReturnValue(mockError);
   
     const mockRequest = createRequest({
       method: 'POST',
@@ -52,7 +55,7 @@ describe('carValueController', () => {
     const mockResponse = createResponse();
     await carValueController(mockRequest as Request, mockResponse as Response);
   
-    expect(mockResponse._getJSONData()).toEqual(mockError);
+    expect(mockResponse._getJSONData()).toEqual({ error: mockError.error });
     expect(mockResponse._getStatusCode()).toBe(400);
   });
 });
