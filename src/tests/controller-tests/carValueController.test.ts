@@ -4,9 +4,8 @@ import carValueController from '../../controllers/carValueController';
 import { calculateCarValue } from '../../services/calculateCarValue';
 import { CarValueInput, CarValueOutput } from '../../types/types';
 
-// Mock calculateCarValue
 jest.mock('../../services/calculateCarValue', () => ({
-  calculateCarValue: jest.fn(),
+  calculateCarValue: jest.fn()
 }));
 
 describe('carValueController', () => {
@@ -21,7 +20,8 @@ describe('carValueController', () => {
       year: 2015,
     };
     const mockCarValue: CarValueOutput = { car_value: 20000 };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockCarValue);
+
+    (calculateCarValue as jest.MockedFunction<typeof calculateCarValue>).mockReturnValue(mockCarValue);
 
     const mockRequest = createRequest({
       method: 'POST',
@@ -41,7 +41,8 @@ describe('carValueController', () => {
       year: 2023,
     };
     const mockError: CarValueOutput = { error: 'Invalid model or year' };
-    (calculateCarValue as jest.Mock).mockReturnValue(mockError);
+
+    (calculateCarValue as jest.MockedFunction<typeof calculateCarValue>).mockReturnValue(mockError);
   
     const mockRequest = createRequest({
       method: 'POST',
@@ -54,5 +55,4 @@ describe('carValueController', () => {
     expect(mockResponse._getJSONData()).toEqual(mockError);
     expect(mockResponse._getStatusCode()).toBe(400);
   });
-  
 });

@@ -5,7 +5,7 @@ import { RiskInput, RiskOutput } from '../../types/types';
 import { evaluateRisk } from '../../services/calculateRiskRating';
 
 jest.mock('../../services/calculateRiskRating', () => ({
-  evaluateRisk: jest.fn(),
+  evaluateRisk: jest.fn()
 }));
 
 describe('riskRatingController', () => {
@@ -15,7 +15,8 @@ describe('riskRatingController', () => {
 
   it('should return risk rating', async () => {
     const mockRiskRating: RiskOutput = { risk_rating: 2 };
-    (evaluateRisk as jest.Mock).mockReturnValue(mockRiskRating);
+
+    (evaluateRisk as jest.MockedFunction<typeof evaluateRisk>).mockReturnValue(mockRiskRating);
 
     const mockRequestBody: RiskInput = {
       claim_history: 'crash, smash',
@@ -29,16 +30,21 @@ describe('riskRatingController', () => {
     const mockResponse = createResponse();
     await riskRatingController(mockRequest as Request, mockResponse as Response);
 
-    expect(mockResponse._getJSONData()).toEqual({
+    const result = JSON.parse(mockResponse._getData());
+    if (result.error) {
+      console.log('Error:', result.error);
+    }
+
+    expect(result).toEqual({
       risk_rating: mockRiskRating.risk_rating,
-    });    
-    expect(mockResponse._getStatusCode()).toBe(200);
+    });
+
+    expect(mockResponse.statusCode).toBe(200);
   });
 
   it('should return 400 and an error message if there is an error', async () => {
-    const mockError = new Error('There was an error processing your request');
-    (evaluateRisk as jest.Mock).mockImplementation(() => {
-      throw mockError;
+    (evaluateRisk as jest.MockedFunction<typeof evaluateRisk>).mockImplementation(() => {
+      throw new Error('There was an error processing your request');
     });
 
     const mockRequestBody: RiskInput = {
@@ -53,7 +59,12 @@ describe('riskRatingController', () => {
     const mockResponse = createResponse();
     await riskRatingController(mockRequest as Request, mockResponse as Response);
 
-    expect(mockResponse._getJSONData()).toEqual({ error: mockError.message });
-    expect(mockResponse._getStatusCode()).toBe(400);
+    const result = JSON.parse(mockResponse._getData());
+    if (result.error) {
+      console.log('Error:', result.error);
+    }
+
+    expect(result.error).toEqual('There was an error processing your request');
+    expect(mockResponse.statusCode).toBe(400);
   });
 });
