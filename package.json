@@ -5,7 +5,7 @@
   "main": "server.ts",
   "scripts": {
     "dev": "tsnd src/server.ts --respawn --transpile-only --exit-child",
-    "test": "jest --detectOpenHandles",
+    "test": "jest --runInBand",
     "build": "tsc",
     "start": "node build/server.js"
   },
