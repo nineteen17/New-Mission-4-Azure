@@ -10,7 +10,7 @@ jest.mock('../../services/calculateRiskRating', () => ({
 
 describe('riskRatingController', () => {
   beforeEach(() => {
-    (evaluateRisk as jest.Mock).mockReset();
+    jest.resetAllMocks();
   });
 
   it('should return risk rating', async () => {
